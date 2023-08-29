@@ -22,11 +22,13 @@ public class MainWindow extends JFrame {
 
     private JButton btnStartGame;
     private JButton btnExit;
+    private JButton btnAbout;
     private ImageIcon image;
     private Fondo fondo;
     private JComboBox comboLevel;
 
     private GameWindow gameWindow;
+    private AboutThisFrame aboutThisFrame;
 
     public MainWindow(ActionListener listener, int selectedTower, Stack<Integer>[] towers, Set<String> keySet) {
         initComponents(listener, selectedTower, towers, keySet);
@@ -49,12 +51,16 @@ public class MainWindow extends JFrame {
         btnStartGame.setActionCommand("iniciar Juego");
         comboLevel = new JComboBox();
         configureLevel(keySet,comboLevel);
-        comboLevel.setBounds(150, 200, 100, 50);
+        comboLevel.setBounds(150, 200, 100, 30);
         add(comboLevel);
         btnExit = new JButton("Exit");
         btnExit.addActionListener(listener);
         btnExit.setActionCommand("salir");
         createButton("src/resources/exit.png", btnExit, 150, 300, 100, 50);
+        btnAbout = new JButton("Acerca de...");
+        btnAbout.addActionListener(listener);
+        btnAbout.setActionCommand("abrirAcercade");
+        createButton("src/resources/info.jpg", btnAbout, 400, 0, 50, 50);
         image = new ImageIcon("src/resources/fondo2.jpg");
         Image background = image.getImage();
         fondo = new Fondo(background);
@@ -62,6 +68,7 @@ public class MainWindow extends JFrame {
         add(fondo);
 
         gameWindow = new GameWindow(listener, selectedTower, towers);
+        aboutThisFrame = new AboutThisFrame();
 
     }
 
@@ -86,6 +93,9 @@ public class MainWindow extends JFrame {
 
     public void openGameWindow(boolean b) {
         gameWindow.setVisible(b);
+    }
+    public void openCloseWindow(boolean b){
+        aboutThisFrame.setVisible(b);
     }
 
     public JButton[] getbuttons() {
