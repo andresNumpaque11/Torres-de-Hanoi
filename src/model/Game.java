@@ -9,12 +9,19 @@ import java.util.Stack;
 public class Game {
 
     private Stack<Integer>[] towers;
+    private String dificulty;
     private int numDisks;
 
     public Game(int disks) {
         this.numDisks = disks;
         initializeGame();
     }
+
+    public Game(String dificulty, int disks) {
+        this.dificulty = dificulty;
+        this.numDisks = disks;
+    }
+    
 
     private void initializeGame() {
         towers = new Stack[3];

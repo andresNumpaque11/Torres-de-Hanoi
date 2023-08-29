@@ -2,8 +2,9 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Stack;
+import java.util.Map;
 import model.Game;
+import model.Persistent;
 import view.MainWindow;
 
 /**
@@ -14,23 +15,30 @@ public class Controller implements ActionListener {
 
     private MainWindow mainWindow;
     private Game game;
-    private int numdisk = 3;
     private int selectedTower = -1;
     private int secondTower = -1;
+    private Map<String, Integer> levels;
 
     public Controller() {
-        game = new Game(numdisk);
-        mainWindow = new MainWindow(this, selectedTower, game.getTowers());
+        levels = Persistent.leerNivelesDesdeArchivo("src/resources/levels.txt");
+        game = new Game(3);
+        mainWindow = new MainWindow(this, selectedTower, game.getTowers(), levels.keySet());
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         switch (e.getActionCommand()) {
             case "salir":
+                System.exit(0);
                 break;
             case "iniciar Juego":
                 mainWindow.openGameWindow(true);
                 mainWindow.setVisible(false);
+                String level = mainWindow.getComboLevel().getSelectedItem().toString();
+                int numDisk = levels.get(level);
+                System.out.println("el nivel fue " + level + " numero " + numDisk);
+                game = new Game(numDisk);
+                mainWindow.setTowers(game.getTowers());
                 break;
             case "0":
                 if (selectedTower == -1) {
@@ -91,7 +99,7 @@ public class Controller implements ActionListener {
             mainWindow.showMessage("¡¡Felicitaniones!!\n Ganaste El Juego");
             mainWindow.openGameWindow(false);
             mainWindow.setVisible(true);
-            game = new Game(numdisk);
+            //game = new Game(numdisk);
             mainWindow.resetGame(game.getTowers());
         }
     }
