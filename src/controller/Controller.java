@@ -31,12 +31,14 @@ public class Controller implements ActionListener {
             case "salir":
                 System.exit(0);
                 break;
+            case "abrirAcercade":
+                mainWindow.openCloseWindow(true);
+                break;
             case "iniciar Juego":
                 mainWindow.openGameWindow(true);
                 mainWindow.setVisible(false);
                 String level = mainWindow.getComboLevel().getSelectedItem().toString();
                 int numDisk = levels.get(level);
-                System.out.println("el nivel fue " + level + " numero " + numDisk);
                 game = new Game(numDisk);
                 mainWindow.setTowers(game.getTowers());
                 break;
