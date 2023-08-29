@@ -5,10 +5,12 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionListener;
+import java.util.Set;
 import java.util.Stack;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -22,24 +24,33 @@ public class MainWindow extends JFrame {
     private JButton btnExit;
     private ImageIcon image;
     private Fondo fondo;
+    private JComboBox comboLevel;
 
     private GameWindow gameWindow;
 
-    public MainWindow(ActionListener listener, int selectedTower, Stack<Integer>[] towers) {
-        initComponents(listener, selectedTower, towers);
+    public MainWindow(ActionListener listener, int selectedTower, Stack<Integer>[] towers, Set<String> keySet) {
+        initComponents(listener, selectedTower, towers, keySet);
         this.setTitle("Torres de Hanoi");
         this.setSize(450, 450);
         this.setVisible(true);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
     }
+    
+    public void setTowers(Stack<Integer>[] towers){
+        gameWindow.getPanelGame().setTowers(towers);
+    }
 
-    private void initComponents(ActionListener listener, int selectedTower, Stack<Integer>[] towers) {
+    private void initComponents(ActionListener listener, int selectedTower, Stack<Integer>[] towers, Set<String> keySet) {
         this.setLayout(null);
         btnStartGame = new JButton();
         createButton("src/resources/start.png", btnStartGame, 150, 100, 100, 50);
         btnStartGame.addActionListener(listener);
         btnStartGame.setActionCommand("iniciar Juego");
+        comboLevel = new JComboBox();
+        configureLevel(keySet,comboLevel);
+        comboLevel.setBounds(150, 200, 100, 50);
+        add(comboLevel);
         btnExit = new JButton("Exit");
         btnExit.addActionListener(listener);
         btnExit.setActionCommand("salir");
@@ -52,6 +63,12 @@ public class MainWindow extends JFrame {
 
         gameWindow = new GameWindow(listener, selectedTower, towers);
 
+    }
+
+    private void configureLevel(Set<String> data, JComboBox comboLevel) {
+        for (String level : data) {
+            comboLevel.addItem(level);
+        }
     }
 
     public void createButton(String path, JButton buttonGeneric, int x, int y, int w, int h) {
@@ -74,25 +91,29 @@ public class MainWindow extends JFrame {
     public JButton[] getbuttons() {
         return gameWindow.getPanelButtons().getTowerButtons();
     }
-    
-    public void isEnableButtons(boolean b){
+
+    public void isEnableButtons(boolean b) {
         for (JButton button : getbuttons()) {
             button.setEnabled(b);
         }
     }
-    
-    public void showMessage(String message){
+
+    public void showMessage(String message) {
         JOptionPane.showMessageDialog(this, message);
     }
 
     public void repaintGameWindow() {
         gameWindow.getPanelGame().repaint();
     }
-    
-    public void resetGame(Stack<Integer>[] towers){
+
+    public void resetGame(Stack<Integer>[] towers) {
         gameWindow.reset(towers);
         repaintGameWindow();
         isEnableButtons(true);
     }
-    
+
+    public JComboBox getComboLevel() {
+        return comboLevel;
+    }
+
 }

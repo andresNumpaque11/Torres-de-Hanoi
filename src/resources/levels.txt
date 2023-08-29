@@ -1,0 +1,6 @@
+Principiante: 3
+Novato: 4
+Intermedio: 6
+Avanzado: 7
+Experto: 9
+Maestro: 10
