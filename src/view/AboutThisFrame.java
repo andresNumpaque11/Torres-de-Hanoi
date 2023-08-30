@@ -1,7 +1,5 @@
 package view;
 
-import java.awt.FlowLayout;
-import java.awt.HeadlessException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
@@ -17,7 +15,6 @@ public class AboutThisFrame extends JFrame {
 
         initComponents();
         this.setVisible(false);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(300, 300);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
